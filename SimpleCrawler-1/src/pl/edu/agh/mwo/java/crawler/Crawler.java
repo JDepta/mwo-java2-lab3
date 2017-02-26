@@ -16,6 +16,9 @@ public class Crawler {
 		urlToProcess = initUrl;
 	}
 
+	protected TextExtractor textExtractor;
+	
+	
 	
 	public void run () throws IOException
 	{
@@ -23,19 +26,32 @@ public class Crawler {
 		Document doc = null;
 		doc = Jsoup.connect(urlToProcess).get();
 
-		
-		String text = doc.body().text();
-
-		String[] sentences = text.split("\\.");
+		TextExtractor textExtractor = new TextExtractor();
+		String[] sentences = textExtractor.textExtractor(doc);
 		
 		for(int i = 0 ; i < sentences.length ; i++)
 		{
+
+			if ((sentences[i]).contains("du¿o"))
 			System.out.println(sentences[i]);
-			
-			////////// ?? 
-
+	
 		}	
-
 		
+		
+		for (int i = 0; i < sentences.length ; i++) {
+			char charToFind = 'p';
+			int charCount = 0;
+			for (int j = 0; j < sentences[i].length(); j++)
+			{
+				if ((sentences[i]).charAt(j) == charToFind) {
+					charCount++;
+					if (charCount == 10)
+					System.out.println(sentences[i]);
+				}
+			}
+		}
 	}
+
+
+	
 }
